@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -21,9 +22,10 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "5000"
+		port = ":5000"
+	} else {
+		port = fmt.Sprintf(":%s", port)
 	}
 
-	log.Printf("Listening on port %s\n\n", port)
-	app.Listen(port)
+	log.Fatal(app.Listen(port))
 }
