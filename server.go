@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/api/database"
 	"fmt"
 	"log"
 	"os"
@@ -20,19 +21,25 @@ func main() {
 
 	//Rate limiting
 	app.Use(limiter.New())
-
+	
 	//Handle panics
 	app.Use(recover.New())
+	
+	// Database connection
+	database.ConnectDatabase()
 
 	router.SetupRoutes(app)
-
+	
 	port := os.Getenv("PORT")
-
+	
 	if port == "" {
 		port = ":5000"
-	} else {
+		} else {
 		port = fmt.Sprintf(":%s", port)
 	}
 
+
 	log.Fatal(app.Listen(port))
+	
+	defer database.DB.Close()
 }
