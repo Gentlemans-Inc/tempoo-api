@@ -16,9 +16,9 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 
 	}
-	identity := input.Identity
+	email := input.Email
 	pass := input.Password
-	if identity != "arthur" || pass != "arthur" {
+	if email != "arthur" || pass != "arthur" {
 		return c.SendStatus(fiber.StatusUnauthorized)
 
 	}
@@ -26,7 +26,7 @@ func Login(c *fiber.Ctx) error {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["identity"] = identity
+	claims["identity"] = email
 	claims["admin"] = true
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
