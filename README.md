@@ -13,3 +13,27 @@ Fiber is a Express inspired web framework written in Go
 Check it out [Fiber website](https://gofiber.io/) for more information about it
 
 # IN DEVELOPMENT 🔨🔨🔨
+
+
+### Tech stack at the moment
+
+- **Fiber**
+- **Gorm**
+- **Postgres**
+- **Docker**
+
+#### Ideas that we are grooming to implement
+
+- **Kubernetes**
+- **Some kind of struct validator (like ozzo)**
+- **Build some security middlewares for API most common attacks**
+
+
+## Infos about the app itself
+
+We are planning to use React Native to build the mobile front-end, and in order to build the web app we are seeking to use React + Next.JS
+
+
+### Product ideas
+By now we are planning to use openWeather API for bring forecast data, but in a further moment will be awesome if we bring other data providers to our forecast system
+
