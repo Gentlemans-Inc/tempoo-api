@@ -1,5 +1,7 @@
 package database
 
-import "github.com/jinzhu/gorm"
+import 	"gorm.io/gorm"
 
+
+// DB var
 var DB *gorm.DB

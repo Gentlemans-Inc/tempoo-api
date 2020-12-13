@@ -14,6 +14,9 @@ import (
 )
 
 func main() {
+	// Database connection
+	database.ConnectDatabase()
+
 	app := fiber.New()
 
 	//Handle Cors
@@ -25,8 +28,6 @@ func main() {
 	//Handle panics
 	app.Use(recover.New())
 	
-	// Database connection
-	database.ConnectDatabase()
 
 	router.SetupRoutes(app)
 	
@@ -40,6 +41,7 @@ func main() {
 
 
 	log.Fatal(app.Listen(port))
-	
-	defer database.DB.Close()
+
+	//  I don't know why it's not recognizing .Close()
+	// defer database.DB.Close()
 }

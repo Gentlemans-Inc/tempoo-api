@@ -1,14 +1,17 @@
 package database
 
 import (
+	"database/sql"
 	"github.com/api/config"
 	"github.com/api/models"	
 	"fmt"
 	"strconv"
-	
-	"gorm.io/gorm"
 	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
+
+var db *sql.DB
+
 
 // ConnectDatabase creates the connection with postgres
 func ConnectDatabase() {
@@ -16,14 +19,19 @@ func ConnectDatabase() {
 	p := config.Env("DB_PORT")
 	port, err := strconv.ParseUint(p, 10, 32)
 
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.Env("DB_HOST"), port, config.Env("DB_USER"), config.Env("DB_PASSWORD"), config.Env("DB_NAME"))
-	
-	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.Env("DB_HOST"), port, config.Env("DB_USER"), config.Env("DB_PASSWORD"), config.Env("DB_NAME"))	
+	DB, err = gorm.Open(postgres.New(postgres.Config{
+		DSN: dsn,
+		PreferSimpleProtocol: true, // disables implicit prepared statement usage
+	}), &gorm.Config{})
 
 	if err != nil {
-		fmt.Println(err)
 		panic("failed to connect database")
 	}
+	
+	// if err = db.Ping(); err != nil {
+	// 	panic(err)
+	// }
 
 	fmt.Println("Connection opened to database")
 	DB.AutoMigrate(&models.User{})
