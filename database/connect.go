@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/api/config"
@@ -19,7 +20,7 @@ func ConnectDatabase() {
 	p := config.Env("DB_PORT")
 	port, err := strconv.ParseUint(p, 10, 32)
 
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.Env("DB_HOST"), port, config.Env("DB_USER"), config.Env("DB_PASSWORD"), config.Env("DB_NAME"))
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), port, os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 	DB, err = gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
