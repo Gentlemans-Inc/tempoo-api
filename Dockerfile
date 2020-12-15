@@ -1,5 +1,8 @@
 # Stage 1
 FROM golang:alpine as builder
+
+LABEL mainteiner="Matheus Cumpian <matheus.cumpian@hotmail.com>"
+
 RUN apk update && apk add --no-cache git
 RUN mkdir /build 
 ADD . /build/
@@ -14,3 +17,5 @@ USER appuser
 COPY --from=builder /build/ /app/
 WORKDIR /app
 CMD ["./server"]
+
+EXPOSE 8080
