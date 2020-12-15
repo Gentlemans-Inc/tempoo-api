@@ -1,15 +1,17 @@
 package main
 
 import (
-	"github.com/api/database"
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/api/database"
 
 	"github.com/api/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -24,24 +26,23 @@ func main() {
 
 	//Rate limiting
 	app.Use(limiter.New())
-	
+
 	//Handle panics
 	app.Use(recover.New())
-	
+
+	//Handle logs
+	app.Use(logger.New())
 
 	router.SetupRoutes(app)
-	
+
 	port := os.Getenv("PORT")
-	
+
 	if port == "" {
-		port = ":5000"
-		} else {
+		port = ":8080"
+	} else {
 		port = fmt.Sprintf(":%s", port)
 	}
 
-
 	log.Fatal(app.Listen(port))
 
-	//  I don't know why it's not recognizing .Close()
-	// defer database.DB.Close()
 }
