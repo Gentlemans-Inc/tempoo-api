@@ -10,6 +10,7 @@ WORKDIR /build
 RUN go get -d -v
 RUN go build -o server .
 
+
 # Stage 2
 FROM alpine
 RUN adduser -S -D -H -h /app appuser

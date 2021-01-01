@@ -2,6 +2,7 @@ version: '3'
 services: 
   api:
     container_name: tempoo-api
+    image: mcumpian/tempoo
     build: .
     ports:
       - 8080:8080

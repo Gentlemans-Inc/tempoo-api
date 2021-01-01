@@ -21,6 +21,9 @@ func main() {
 
 	app := fiber.New()
 
+	//Helmet security
+	//app.Use(helmet.New())
+
 	//Handle Cors
 	app.Use(cors.New())
 
@@ -33,6 +36,10 @@ func main() {
 	//Handle logs
 	app.Use(logger.New())
 
+	//Request ID
+	//app.Use(requestid.New())
+
+	//Handle routes
 	router.SetupRoutes(app)
 
 	port := os.Getenv("PORT")

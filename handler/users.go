@@ -1,44 +1,27 @@
 package handler
 
 import (
-	"fmt"
-
 	"github.com/api/database"
 	"github.com/api/models"
-
+	"github.com/api/services"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )
 
+
+
+
 // CreateUser Handler for POST /user
 func CreateUser(c *fiber.Ctx) error {
-	db := database.DB
-	user := new(models.User)
-
+	var service = services.NewUserService()
+	var user = new(models.User)
 	if err := c.BodyParser(user); err != nil {
-		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "Invalid fields"})
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": err})
 	}
 
-	userExists := db.Find(&user, user.Email)
-	if userExists != nil {
-		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "User already exists"})
-	}
-
-	hash, err := hashPassword(user.Password)
-
+	newUser, err := service.CreateUser(user)
 	if err != nil {
-		return c.SendStatus(fiber.StatusInternalServerError)
-	}
-
-	user.Password = hash
-
-	if err := db.Create(&user).Error; err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user", "data": err})
-	}
-
-	newUser := models.NewUser{
-		Email: user.Email,
-		Name:  user.Name,
+		return c.Status(400).JSON(fiber.Map{"status": "error", "message": err})
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
@@ -46,10 +29,8 @@ func CreateUser(c *fiber.Ctx) error {
 
 //EditUser handler for PUT /user/:id
 func EditUser(c *fiber.Ctx) error {
-	db := database.DB
+	db := database.Instance
 	id := c.Params("id")
-
-	fmt.Println()
 
 	var newUser models.NewUser
 	if err := c.BodyParser(&newUser); err != nil {
@@ -81,9 +62,8 @@ func EditUser(c *fiber.Ctx) error {
 
 // GetUser Handler for GET /user/:id
 func GetUser(c *fiber.Ctx) error {
-
+	db := database.Instance
 	id := c.Params("id")
-	db := database.DB
 
 	var user models.User
 
@@ -103,8 +83,8 @@ func GetUser(c *fiber.Ctx) error {
 
 // DeleteUser delete user
 func DeleteUser(c *fiber.Ctx) error {
+	db := database.Instance
 	id := c.Params("id")
-	db := database.DB
 
 	var user models.User
 
