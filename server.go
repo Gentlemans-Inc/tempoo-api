@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 	app.Use(logger.New())
 
 	//Request ID
-	//app.Use(requestid.New())
+	app.Use(requestid.New())
 
 	//Handle routes
 	router.SetupRoutes(app)
