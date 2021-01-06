@@ -1,7 +1,6 @@
 package user
 
 import (
-	userErrors "github.com/api/helpers/errors/user"
 	"github.com/api/models"
 	"github.com/api/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -13,7 +12,7 @@ type Service struct {
 
 // CreateUser on app
 func (s Service) CreateUser(user *models.User) (*models.NewUser, error) {
-	result, err := s.Repository.FindOneByEmail(user.Email)
+	_, err := s.Repository.FindOneByEmail(user.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +31,7 @@ func (s Service) CreateUser(user *models.User) (*models.NewUser, error) {
 
 	return &models.NewUser{
 		Email: user.Email,
-		Name: user.Name,
+		Name:  user.Name,
 	}, nil
 }
 
