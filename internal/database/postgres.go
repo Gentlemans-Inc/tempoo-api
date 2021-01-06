@@ -15,6 +15,7 @@ type databaseConfig struct {
 	password string
 	name     string
 	port     string
+	sslMode  string
 }
 
 var Instance *gorm.DB
@@ -25,7 +26,7 @@ func ConnectDatabase() {
 	p := dbConfig.port
 	port, err := strconv.ParseUint(p, 10, 32)
 
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", dbConfig.host, port, dbConfig.user, dbConfig.password, dbConfig.name)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", dbConfig.host, port, dbConfig.user, dbConfig.password, dbConfig.name, dbConfig.sslMode)
 	Instance, err = gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
@@ -45,5 +46,6 @@ func setupDatabase() *databaseConfig {
 		password: os.Getenv("DB_PASSWORD"),
 		name:     os.Getenv("DB_NAME"),
 		port:     os.Getenv("DB_PORT"),
+		sslMode:  os.Getenv("DB_SSLMODE"),
 	}
 }
