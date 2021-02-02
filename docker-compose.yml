@@ -1,7 +1,7 @@
 version: '3'
 services: 
   api:
-    container_name: tempoo-api
+    container_name: tempoo-pkg
     image: mcumpian/tempoo
     build: .
     ports:

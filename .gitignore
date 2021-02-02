@@ -17,4 +17,5 @@
 # Env variables
 .env
 .vscode
+.idea
 server
