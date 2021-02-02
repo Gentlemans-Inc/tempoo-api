@@ -2,12 +2,9 @@ package database
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
-	"github.com/api/models"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -38,21 +35,10 @@ func ConnectDatabase() {
 		panic("failed to connect database")
 	}
 
-	fmt.Println("Connection opened to database")
-	Instance.AutoMigrate(&models.User{})
-	fmt.Println("Database migrated")
-
 	return
 }
 
 func setupDatabase() *databaseConfig {
-	if os.Getenv("ENV") != "PRODUCTION" {
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Error loading .env file!")
-		}
-	}
-
 	return &databaseConfig{
 		host:     os.Getenv("DB_HOST"),
 		user:     os.Getenv("DB_USER"),

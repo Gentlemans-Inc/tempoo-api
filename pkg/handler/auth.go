@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"github.com/api/internal/user"
+	"golang.org/x/crypto/bcrypt"
+	"os"
 	"time"
 
-	"github.com/api/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,16 +13,23 @@ import (
 // Login Handler for POST /auth/login
 func Login(c *fiber.Ctx) error {
 
-	var input models.UserLogin
+	var service = user.NewUserService()
+	var input user.AuthRequest
 	if err := c.BodyParser(&input); err != nil {
-		return c.SendStatus(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{"status": "error", "error": "malformed auth request", "data": nil})
 
 	}
 	email := input.Email
 	pass := input.Password
-	if email != "arthur" || pass != "arthur" {
-		return c.SendStatus(fiber.StatusUnauthorized)
 
+	usr, err := service.GetUserByEmail(email)
+
+	if err != nil || len(usr.Email) == 0 {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(pass)); err != nil {
+		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -30,7 +39,7 @@ func Login(c *fiber.Ctx) error {
 	claims["admin"] = true
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString([]byte(os.Getenv("TOKEN_SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 
