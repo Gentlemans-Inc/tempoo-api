@@ -43,12 +43,8 @@ func (h *ServiceHandler) GetWeather(c *fiber.Ctx) error {
 		if err.Error() == "400" {
 			c.Context().Response.SetStatusCode(400)
 			return c.JSON(fiber.Map{"status": "error", "error": "malformed get-weather request", "data": nil})
-		} else if err.Error() == "500" {
-			c.Context().Response.SetStatusCode(500)
-			return c.JSON(fiber.Map{"status": "error", "data": nil})
-		} else {
-			return c.JSON(fiber.Map{"status": "error", "data": nil})
 		}
+		return c.Status(500).JSON(fiber.Map{"status": "error", "data": nil})
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "data": currentWeather})
