@@ -2,6 +2,7 @@ package router
 
 import (
 	user2 "github.com/api/internal/user"
+	"github.com/api/internal/weather"
 	"github.com/api/pkg/handler"
 	middleware "github.com/api/pkg/middlewares"
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +13,8 @@ func SetupRoutes(app *fiber.App) {
 
 	userService := user2.NewUserService()
 	userHandler := handler.NewUserHandler(userService)
+	weatherService := weather.NewWeatherService()
+	weatherHandler := handler.NewWeatherHandler(weatherService)
 
 	// Api base
 	api := app.Group("/api")
@@ -34,5 +37,5 @@ func SetupRoutes(app *fiber.App) {
 
 	// weather
 	weather := v1.Group("/weather")
-	weather.Get("/", middleware.Protected() ,handler.GetWeather)
+	weather.Get("/current", middleware.Protected(), weatherHandler.GetWeather)
 }

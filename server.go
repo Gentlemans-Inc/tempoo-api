@@ -33,7 +33,6 @@ func main() {
 		log.Fatalf("cannot migrate database, stack: %s", err.Error())
 	}
 
-
 	app := fiber.New()
 
 	//Helmet security
