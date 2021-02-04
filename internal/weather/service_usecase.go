@@ -32,7 +32,7 @@ func (s Service) GetCurrentWeather(coords *Request) (*Response, error) {
 		return nil, err
 	}
 
-	m := new(openWeatherCherryPick)
+	m := &openWeatherCherryPick{}
 
 	if err = json.Unmarshal([]byte(bodyBytes), &m); err != nil {
 		fmt.Println(err)
