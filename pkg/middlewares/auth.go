@@ -10,7 +10,7 @@ func Protected() fiber.Handler {
 	secret := os.Getenv("TOKEN_SECRET")
 
 	return jwt.New(jwt.Config{
-		SigningKey: []byte(secret),
+		SigningKey:   []byte(secret),
 		ErrorHandler: jwtErrorHandler,
 	})
 }

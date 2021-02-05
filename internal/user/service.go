@@ -8,7 +8,6 @@ type UserService interface {
 	GetUserById(id int) (user User, err error)
 }
 
-
 func NewUserService() (service UserService) {
 	r := NewUserRepository()
 	service = &Service{

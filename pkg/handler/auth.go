@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/api/internal/user"
+	"github.com/Mangaba-Labs/tempoo-api/internal/user"
 	"golang.org/x/crypto/bcrypt"
 	"os"
 	"time"
@@ -25,11 +25,11 @@ func Login(c *fiber.Ctx) error {
 	usr, err := service.GetUserByEmail(email)
 
 	if err != nil || len(usr.Email) == 0 {
-		return c.SendStatus(fiber.StatusUnauthorized)
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(pass)); err != nil {
-		return c.SendStatus(fiber.StatusUnauthorized)
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -42,7 +42,6 @@ func Login(c *fiber.Ctx) error {
 	t, err := token.SignedString([]byte(os.Getenv("TOKEN_SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
-
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})

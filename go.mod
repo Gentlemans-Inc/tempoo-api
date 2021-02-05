@@ -1,4 +1,4 @@
-module github.com/api
+module github.com/Mangaba-Labs/tempoo-api
 
 // +heroku goVersion go1.15
 go 1.15

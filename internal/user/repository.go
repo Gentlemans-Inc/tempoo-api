@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/api/internal/database"
+	"github.com/Mangaba-Labs/tempoo-api/internal/database"
 	"gorm.io/gorm"
 )
 
@@ -20,5 +20,3 @@ func NewUserRepository() UserRepository {
 		DB: database.Instance,
 	}
 }
-
-

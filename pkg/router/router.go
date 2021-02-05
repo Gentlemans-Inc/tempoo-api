@@ -1,10 +1,10 @@
 package router
 
 import (
-	user2 "github.com/api/internal/user"
-	"github.com/api/internal/weather"
-	"github.com/api/pkg/handler"
-	middleware "github.com/api/pkg/middlewares"
+	user2 "github.com/Mangaba-Labs/tempoo-api/internal/user"
+	"github.com/Mangaba-Labs/tempoo-api/internal/weather"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/handler"
+	middleware "github.com/Mangaba-Labs/tempoo-api/pkg/middlewares"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -17,7 +17,7 @@ type Response struct {
 	WindSpeed          float32 `json:"wind_speed"`
 }
 
-type openWeatherCherryPick struct {
+type forecast struct {
 	Weather []struct {
 		Main        string `json:"main"`
 		Description string `json:"description"`
@@ -31,4 +31,14 @@ type openWeatherCherryPick struct {
 	Wind struct {
 		Speed float32 `json:"speed"`
 	}
+}
+
+func (r *Response) parseFromForecast(f *forecast) {
+	r.CurrentTemperature = f.Main.CurrentTemperature
+	r.Description = f.Weather[0].Main
+	r.Humidity = f.Main.Humidity
+	r.Main = f.Weather[0].Main
+	r.MaximumTemperature = f.Main.MaximumTemperature
+	r.MinimumTemperature = f.Main.MinimumTemperature
+	r.WindSpeed = f.Wind.Speed
 }
