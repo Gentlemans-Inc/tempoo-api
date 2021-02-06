@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/api/internal/config"
+	"github.com/Mangaba-Labs/tempoo-api/internal/config"
 	"log"
 	"os"
 
-	"github.com/api/internal/database"
+	"github.com/Mangaba-Labs/tempoo-api/internal/database"
 
-	"github.com/api/pkg/router"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
@@ -32,7 +32,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("cannot migrate database, stack: %s", err.Error())
 	}
-
 
 	app := fiber.New()
 
