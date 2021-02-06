@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/api/internal/weather"
+	"github.com/Mangaba-Labs/tempoo-api/internal/weather"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -24,14 +24,14 @@ func NewWeatherHandler(s weather.WeatherService) WeatherHandler {
 
 // GetWeather handler for GET /weather/current
 func (h *ServiceHandler) GetWeather(c *fiber.Ctx) error {
-	var userCoord = new(weather.Request)
+	var userCoord = &weather.Request{}
 	var service = weather.NewWeatherService()
 
 	lat := c.Query("lat")
 	lon := c.Query("lon")
 
 	if lat == "" || lon == "" {
-		return c.JSON(fiber.Map{"status": "error", "error": "malformed get-weather request", "data": nil})
+		return c.JSON(fiber.Map{"status": "error", "message": "malformed get-weather request", "data": nil})
 	}
 
 	userCoord.Latitude = lat
@@ -42,9 +42,9 @@ func (h *ServiceHandler) GetWeather(c *fiber.Ctx) error {
 	if err != nil {
 		if err.Error() == "400" {
 			c.Context().Response.SetStatusCode(400)
-			return c.JSON(fiber.Map{"status": "error", "error": "malformed get-weather request", "data": nil})
+			return c.JSON(fiber.Map{"status": "error", "message": "malformed get-weather request", "data": nil})
 		}
-		return c.Status(500).JSON(fiber.Map{"status": "error", "data": nil})
+		return c.Status(500).JSON(fiber.Map{"status": "error", "data": nil, "message": err.Error()})
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "data": currentWeather})

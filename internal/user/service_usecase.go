@@ -12,7 +12,7 @@ type Service struct {
 
 // CreateUser on app
 func (s Service) CreateUser(user *User) (*Response, error) {
-	_ , err := s.Repository.FindOneByEmail(user.Email)
+	_, err := s.Repository.FindOneByEmail(user.Email)
 
 	// err == nil means that we find an user with this e-mail on db
 	if err == nil {

@@ -32,22 +32,16 @@ func (s Service) GetCurrentWeather(coords *Request) (*Response, error) {
 		return nil, err
 	}
 
-	m := &openWeatherCherryPick{}
+	m := &forecast{}
 
-	if err = json.Unmarshal([]byte(bodyBytes), &m); err != nil {
+	if err = json.Unmarshal(bodyBytes, &m); err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	res := new(Response)
+	res := &Response{}
 
-	res.CurrentTemperature = m.Main.CurrentTemperature
-	res.Description = m.Weather[0].Main
-	res.Humidity = m.Main.Humidity
-	res.Main = m.Weather[0].Main
-	res.MaximumTemperature = m.Main.MaximumTemperature
-	res.MinimumTemperature = m.Main.MinimumTemperature
-	res.WindSpeed = m.Wind.Speed
+	res.parseFromForecast(m)
 
 	return res, nil
 }
