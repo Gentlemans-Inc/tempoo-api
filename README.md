@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/Mangaba-Labs/tempoo-api)](https://goreportcard.com/report/github.com/Mangaba-Labs/tempoo-api)
+
 # tempoo-api ⛅ ☀️ 🌦️
 
 
