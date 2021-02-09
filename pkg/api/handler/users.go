@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/internal/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
 	"github.com/gofiber/fiber/v2"
 	"strconv"
 )
@@ -14,10 +15,10 @@ type UserHandler interface {
 }
 
 type Handler struct {
-	service user.UserService
+	service services.UserService
 }
 
-func NewUserHandler(s user.UserService) UserHandler {
+func NewUserHandler(s services.UserService) UserHandler {
 	return &Handler{
 		service: s,
 	}
@@ -25,7 +26,7 @@ func NewUserHandler(s user.UserService) UserHandler {
 
 // CreateUser Handler for POST /user
 func (h *Handler) CreateUser(c *fiber.Ctx) error {
-	var service = user.NewUserService()
+	var service = services.NewUserService()
 	var usr = &user.User{}
 	if err := c.BodyParser(usr); err != nil {
 		return c.Status(422).JSON(fiber.Map{"status": "error", "message": err})
@@ -41,7 +42,7 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 
 //EditUser handler for PUT /user/:id
 func (h *Handler) EditUser(c *fiber.Ctx) error {
-	service := user.NewUserService()
+	service := services.NewUserService()
 	id, err := strconv.ParseInt(c.Params("id"), 10, 32)
 
 	if err != nil {

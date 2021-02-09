@@ -17,7 +17,7 @@ type Response struct {
 	WindSpeed          float32 `json:"wind_speed"`
 }
 
-type forecast struct {
+type Forecast struct {
 	Weather []struct {
 		Main        string `json:"main"`
 		Description string `json:"description"`
@@ -33,7 +33,7 @@ type forecast struct {
 	}
 }
 
-func (r *Response) parseFromForecast(f *forecast) {
+func (r *Response) ParseFromForecast(f *Forecast) {
 	r.CurrentTemperature = f.Main.CurrentTemperature
 	r.Description = f.Weather[0].Main
 	r.Humidity = f.Main.Humidity

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/internal/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"gorm.io/gorm"
 	"log"
 )

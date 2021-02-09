@@ -1,17 +1,17 @@
 package router
 
 import (
-	user2 "github.com/Mangaba-Labs/tempoo-api/internal/user"
-	"github.com/Mangaba-Labs/tempoo-api/internal/weather"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/handler"
-	middleware "github.com/Mangaba-Labs/tempoo-api/pkg/middlewares"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/api/handler"
+	middleware "github.com/Mangaba-Labs/tempoo-api/pkg/api/middlewares"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
 	"github.com/gofiber/fiber/v2"
 )
 
 // SetupRoutes setup router pkg
 func SetupRoutes(app *fiber.App) {
 
-	userService := user2.NewUserService()
+	userService := services.NewUserService()
 	userHandler := handler.NewUserHandler(userService)
 	weatherService := weather.NewWeatherService()
 	weatherHandler := handler.NewWeatherHandler(weatherService)

@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/internal/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
 	"golang.org/x/crypto/bcrypt"
 	"os"
 	"time"
@@ -13,7 +14,7 @@ import (
 // Login Handler for POST /auth/login
 func Login(c *fiber.Ctx) error {
 
-	var service = user.NewUserService()
+	var service = services.NewUserService()
 	var input user.AuthRequest
 	if err := c.BodyParser(&input); err != nil {
 		return c.JSON(fiber.Map{"status": "error", "error": "malformed auth request", "data": nil})
