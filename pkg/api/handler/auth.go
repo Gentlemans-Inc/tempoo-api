@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"os"
+	"time"
+
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
 	"golang.org/x/crypto/bcrypt"
-	"os"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
@@ -26,7 +27,7 @@ func Login(c *fiber.Ctx) error {
 	usr, err := service.GetUserByEmail(email)
 
 	if err != nil || len(usr.Email) == 0 {
-		return c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(pass)); err != nil {
