@@ -32,7 +32,7 @@ func (s Service) GetCurrentWeather(coords *Request) (*Response, error) {
 		return nil, err
 	}
 
-	m := &forecast{}
+	m := &Forecast{}
 
 	if err = json.Unmarshal(bodyBytes, &m); err != nil {
 		fmt.Println(err)
@@ -41,7 +41,7 @@ func (s Service) GetCurrentWeather(coords *Request) (*Response, error) {
 
 	res := &Response{}
 
-	res.parseFromForecast(m)
+	res.ParseFromForecast(m)
 
 	return res, nil
 }

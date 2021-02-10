@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/internal/weather"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
 	"github.com/gofiber/fiber/v2"
 )
 

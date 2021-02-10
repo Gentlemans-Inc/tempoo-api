@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/Mangaba-Labs/tempoo-api/internal/config"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/config"
 	"log"
 	"os"
 
-	"github.com/Mangaba-Labs/tempoo-api/internal/database"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/database"
 
-	"github.com/Mangaba-Labs/tempoo-api/pkg/router"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/api/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
