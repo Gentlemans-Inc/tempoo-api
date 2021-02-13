@@ -31,6 +31,7 @@ func (r Repository) FindById(id int) (user user.User, err error) {
 	return
 }
 
+// Delete removes a user in DB
 func (r Repository) Delete(id int) (err error) {
 	result := r.DB.Delete(&user.User{}, "id = ?", id)
 	err = result.Error
