@@ -12,6 +12,7 @@ type Repository struct {
 	DB *gorm.DB // this can be any gorm instance
 }
 
+// FindAll find the users in DB
 func (r Repository) FindAll() (users []user.User, err error) {
 	result := r.DB.Find(&users)
 	err = result.Error
