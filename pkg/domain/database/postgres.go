@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -18,11 +17,6 @@ type Config struct {
 	name     string
 	port     string
 	sslMode  string
-}
-
-func (c *Config) GetConfigArray() (configs []string) {
-	connectionString := fmt.Sprintf("POSTGRES_USER=%s,POSTGRES_PASSWORD=%s,POSTGRES_DB=%s", c.user, c.password, c.name)
-	return strings.Split(connectionString, ",")
 }
 
 // Instance of the gorm connection

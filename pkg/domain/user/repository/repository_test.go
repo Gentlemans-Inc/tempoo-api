@@ -10,7 +10,6 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/config"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/database"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/ory/dockertest/v3"
 	"github.com/stretchr/testify/assert"
@@ -21,17 +20,13 @@ var db *sql.DB
 func TestRepository(t *testing.T) {
 
 	var err error
-	config.SetupEnvVars()
-	dbConfig := database.SetupDatabase()
 	pool, err := dockertest.NewPool("")
 
 	if err != nil {
 		t.Fatalf("Could not connect to docker: %s", err)
 	}
 
-	configStr := dbConfig.GetConfigArray()
-
-	resource, err := pool.Run("postgres", "9.6", configStr)
+	resource, err := pool.Run("postgres", "9.6", []string{"POSTGRES_USER=postgres", "POSTGRES_PASSWORD=postgres", "POSTGRES_DB=tempoo"})
 
 	if err != nil {
 		t.Fatalf("Could not start resource: %s", err)
