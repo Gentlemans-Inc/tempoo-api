@@ -68,7 +68,7 @@ func TestRepository(t *testing.T) {
 
 		users, err := r.FindAll()
 
-		assert.Nil(t, err, "canno t find all users")
+		assert.Nil(t, err, "cannot find all users")
 
 		fmt.Println(users)
 
