@@ -14,6 +14,7 @@ type UserService interface {
 	GetUserById(id int) (user user.User, err error)
 }
 
+// Should have a comment
 func NewUserService() (service UserService) {
 	r := repository.NewUserRepository(database.Instance)
 	service = &Service{
