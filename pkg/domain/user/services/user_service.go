@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/database"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/repository"
 )
@@ -14,7 +15,7 @@ type UserService interface {
 }
 
 func NewUserService() (service UserService) {
-	r := repository.NewUserRepository()
+	r := repository.NewUserRepository(database.Instance)
 	service = &Service{
 		Repository: r,
 	}

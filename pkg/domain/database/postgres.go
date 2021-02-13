@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type databaseConfig struct {
+// Config type represents the db connection string
+type Config struct {
 	host     string
 	user     string
 	password string
@@ -18,11 +20,17 @@ type databaseConfig struct {
 	sslMode  string
 }
 
+func (c *Config) GetConfigArray() (configs []string) {
+	connectionString := fmt.Sprintf("POSTGRES_USER=%s,POSTGRES_PASSWORD=%s,POSTGRES_DB=%s", c.user, c.password, c.name)
+	return strings.Split(connectionString, ",")
+}
+
+// Instance of the gorm connection
 var Instance *gorm.DB
 
 // ConnectDatabase creates the connection with postgres
 func ConnectDatabase() {
-	dbConfig := setupDatabase()
+	dbConfig := SetupDatabase()
 	p := dbConfig.port
 	port, err := strconv.ParseUint(p, 10, 32)
 
@@ -39,8 +47,9 @@ func ConnectDatabase() {
 	return
 }
 
-func setupDatabase() *databaseConfig {
-	return &databaseConfig{
+// SetupDatabase returns an databaseConfig pointer
+func SetupDatabase() *Config {
+	return &Config{
 		host:     os.Getenv("DB_HOST"),
 		user:     os.Getenv("DB_USER"),
 		password: os.Getenv("DB_PASSWORD"),

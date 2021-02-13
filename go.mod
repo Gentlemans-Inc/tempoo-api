@@ -4,7 +4,10 @@ module github.com/Mangaba-Labs/tempoo-api
 go 1.15
 
 require (
+	github.com/Microsoft/go-winio v0.4.16 // indirect
 	github.com/andybalholm/brotli v1.0.1 // indirect
+	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
+	github.com/containerd/continuity v0.0.0-20210208174643-50096c924a4e // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofiber/fiber/v2 v2.3.2
 	github.com/gofiber/helmet/v2 v2.1.0
@@ -15,14 +18,19 @@ require (
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/klauspost/compress v1.11.4 // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/lib/pq v1.9.0 // indirect
+	github.com/lib/pq v1.9.0
+	github.com/moby/term v0.0.0-20201216013528-df9cb8a40635 // indirect
+	github.com/ory/dockertest/v3 v3.6.3
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.19.0 // indirect
 	github.com/vektra/mockery/v2 v2.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
+	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
 	golang.org/x/tools v0.1.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210105161348-2e78108cf5f8 // indirect

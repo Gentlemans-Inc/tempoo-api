@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"gorm.io/gorm"
 )
@@ -11,9 +12,9 @@ type Repository struct {
 	DB *gorm.DB // this can be any gorm instance
 }
 
-func (r Repository) FindAll() (users *gorm.DB, err error) {
-	users = r.DB.Find(&users)
-	err = users.Error
+func (r Repository) FindAll() (users []user.User, err error) {
+	result := r.DB.Find(&users)
+	err = result.Error
 	return
 }
 
@@ -30,7 +31,7 @@ func (r Repository) FindById(id int) (user user.User, err error) {
 }
 
 func (r Repository) Delete(id int) (err error) {
-	result := r.DB.Delete(user.User{}, "id = ?", id)
+	result := r.DB.Delete(&user.User{}, "id = ?", id)
 	err = result.Error
 	return
 }
