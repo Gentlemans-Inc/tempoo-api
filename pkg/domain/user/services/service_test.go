@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Should have a comment
+// TestService layer
 func TestService(t *testing.T) {
 	t.Run("get an valid user by e-mail", func(t *testing.T) {
 		expectedResult := user.User{
