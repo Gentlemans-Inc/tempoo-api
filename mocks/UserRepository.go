@@ -4,7 +4,6 @@ package mocks
 
 import (
 	mock "github.com/stretchr/testify/mock"
-	gorm "gorm.io/gorm"
 
 	user "github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 )
@@ -43,15 +42,15 @@ func (_m *UserRepository) Delete(id int) error {
 }
 
 // FindAll provides a mock function with given fields:
-func (_m *UserRepository) FindAll() (*gorm.DB, error) {
+func (_m *UserRepository) FindAll() ([]user.User, error) {
 	ret := _m.Called()
 
-	var r0 *gorm.DB
-	if rf, ok := ret.Get(0).(func() *gorm.DB); ok {
+	var r0 []user.User
+	if rf, ok := ret.Get(0).(func() []user.User); ok {
 		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*gorm.DB)
+			r0 = ret.Get(0).([]user.User)
 		}
 	}
 

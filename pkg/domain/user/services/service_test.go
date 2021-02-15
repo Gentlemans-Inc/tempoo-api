@@ -3,16 +3,17 @@ package services
 import (
 	"errors"
 	"fmt"
+	"testing"
+
 	"github.com/Mangaba-Labs/tempoo-api/mocks"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"gorm.io/gorm"
-	"testing"
 )
 
-
-func TestService(t *testing.T){
+// TestService layer
+func TestService(t *testing.T) {
 	t.Run("get an valid user by e-mail", func(t *testing.T) {
 		expectedResult := user.User{
 			Email:    "matheus.cumpian@hotmail.com",
@@ -39,7 +40,7 @@ func TestService(t *testing.T){
 		assert.Equal(t, result, expectedResult, "wrong result")
 	})
 
-	t.Run("get an invalid user by e-mail", func (t *testing.T) {
+	t.Run("get an invalid user by e-mail", func(t *testing.T) {
 		expectedResult := user.User{}
 
 		mockedRepository := &mocks.UserRepository{}
@@ -59,7 +60,3 @@ func TestService(t *testing.T){
 		assert.Equal(t, err.Error(), fmt.Sprintf("cannot find usr %s on database", fakeEmail))
 	})
 }
-
-
-
-
