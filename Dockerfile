@@ -1,15 +1,16 @@
 # Stage 1
-FROM golang:alpine as builder
+FROM golang:1.15.8 as builder
 
 LABEL mainteiner="Matheus Cumpian <matheus.cumpian@hotmail.com>"
 
-RUN apk update && apk add --no-cache git
+RUN apt-get update && apt-get install git
 RUN mkdir /build 
 ADD . /build/
 WORKDIR /build
-RUN go get -d -v
+RUN go get github.com/google/wire/cmd/wire
+RUN wire
+RUN go mod download
 RUN go build -o server .
-
 
 # Stage 2
 FROM alpine

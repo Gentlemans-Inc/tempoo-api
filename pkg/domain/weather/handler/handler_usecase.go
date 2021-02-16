@@ -1,31 +1,20 @@
 package handler
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/model"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/services"
 	"github.com/gofiber/fiber/v2"
 )
 
-// WeatherHandler handler for /weather endpoints
-type WeatherHandler interface {
-	GetWeather(c *fiber.Ctx) error
-}
-
 // ServiceHandler struct
 type ServiceHandler struct {
-	service weather.WeatherService
-}
-
-// NewWeatherHandler initializer
-func NewWeatherHandler(s weather.WeatherService) WeatherHandler {
-	return &ServiceHandler{
-		service: s,
-	}
+	service services.WeatherService
 }
 
 // GetWeather handler for GET /weather/current
 func (h *ServiceHandler) GetWeather(c *fiber.Ctx) error {
-	var userCoord = &weather.Request{}
-	var service = weather.NewWeatherService()
+	var userCoord = &model.Request{}
+	var service = services.NewWeatherService()
 
 	lat := c.Query("lat")
 	lon := c.Query("lon")

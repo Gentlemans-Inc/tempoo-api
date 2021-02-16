@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -10,7 +11,6 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/config"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/ory/dockertest/v3"
 	"github.com/stretchr/testify/assert"
 )
@@ -55,9 +55,9 @@ func TestRepository(t *testing.T) {
 
 	migrationTool := config.Migrate{DB: gormDB}
 
-	migrationTool.DB.AutoMigrate(&user.User{})
+	migrationTool.DB.AutoMigrate(&model.User{})
 
-	r.Create(&user.User{
+	r.Create(&model.User{
 		Model:    gorm.Model{},
 		Email:    "matheus.cumpian@hotmail.com",
 		Name:     "Matheus Cumpian",

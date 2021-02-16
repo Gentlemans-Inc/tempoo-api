@@ -13,7 +13,7 @@ require (
 	github.com/gofiber/helmet/v2 v2.1.0
 	github.com/gofiber/jwt/v2 v2.1.0
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/google/wire v0.5.0 // indirect
+	github.com/google/wire v0.5.0
 	github.com/jackc/pgmock v0.0.0-20201204152224-4fe30f7445fd // indirect
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/joho/godotenv v1.3.0

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -12,7 +12,7 @@ type Migrate struct {
 
 func (m *Migrate) MigrateAll() (err error) {
 	log.Println("Migrating database... 🤞")
-	err = m.DB.AutoMigrate(&user.User{})
+	err = m.DB.AutoMigrate(&model.User{})
 
 	if err != nil {
 		log.Fatal("Something went wrong on db migration process...\n ", err)

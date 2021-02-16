@@ -1,16 +1,16 @@
 package repository
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	"gorm.io/gorm"
 )
 
 // UserRepository Contract
 type UserRepository interface {
-	FindAll() (users []user.User, err error)
-	FindOneByEmail(email string) (user user.User, err error)
-	FindById(id int) (user user.User, err error)
-	Create(user *user.User) error
+	FindAll() (users []model.User, err error)
+	FindOneByEmail(email string) (user model.User, err error)
+	FindById(id int) (user model.User, err error)
+	Create(user *model.User) error
 	Delete(id int) error
 }
 
