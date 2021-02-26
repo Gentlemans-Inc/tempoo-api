@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/Mangaba-Labs/tempoo-api/database"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/api/router"
+	handler3 "github.com/Mangaba-Labs/tempoo-api/pkg/domain/auth/handler"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/handler"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/repository"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
@@ -29,6 +30,7 @@ func initializeServer() (*router.Server, error) {
 	handlerHandler := handler.NewUserHandler(userService)
 	weatherService := services2.NewWeatherService()
 	weatherHandler := handler2.NewWeatherHandler(weatherService)
-	server := router.NewServer(handlerHandler, weatherHandler)
+	authHandler := handler3.NewAuthHandler(userService)
+	server := router.NewServer(handlerHandler, weatherHandler, authHandler)
 	return server, nil
 }

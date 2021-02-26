@@ -1,13 +1,20 @@
 package handler
 
 import (
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/bcrypt"
+	"os"
+	"time"
 )
 
-// Login Handler for POST /auth/login
-func Login(c *fiber.Ctx) error {
+type AuthHandlerUsecase struct {
+	s services.UserService
+}
 
-	/*var service = services.NewUserService()
+func (a *AuthHandlerUsecase) Login(c *fiber.Ctx) error {
 	var input model.AuthRequest
 	if err := c.BodyParser(&input); err != nil {
 		return c.JSON(fiber.Map{"status": "error", "error": "malformed auth request", "data": nil})
@@ -16,7 +23,7 @@ func Login(c *fiber.Ctx) error {
 	email := input.Email
 	pass := input.Password
 
-	usr, err := service.GetUserByEmail(email)
+	usr, err := a.s.GetUserByEmail(email)
 
 	if err != nil || len(usr.Email) == 0 {
 		return c.SendStatus(fiber.StatusUnauthorized)
@@ -31,13 +38,12 @@ func Login(c *fiber.Ctx) error {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["identity"] = email
 	claims["admin"] = true
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 168).Unix()
 
 	t, err := token.SignedString([]byte(os.Getenv("TOKEN_SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})*/
-	return nil
+	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
 }

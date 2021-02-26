@@ -7,6 +7,6 @@ import (
 )
 
 var Set = wire.NewSet(
-		services.NewWeatherService,
-		handler.NewWeatherHandler,
-	)
+	services.NewWeatherService,
+	handler.NewWeatherHandler,
+)

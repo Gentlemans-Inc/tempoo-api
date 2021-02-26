@@ -8,4 +8,4 @@ import (
 var Set = wire.NewSet(
 	database.NewDatabase,
 	wire.Struct(new(Repository), "DB"),
-	)
+)

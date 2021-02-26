@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
+	model "github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -12,13 +12,13 @@ type UserService struct {
 	mock.Mock
 }
 
-// CreateUser provides a mock function with given fields: _a0
-func (_m *UserService) CreateUser(_a0 *model.User) (*model.Response, error) {
-	ret := _m.Called(_a0)
+// CreateUser provides a mock function with given fields: user
+func (_m *UserService) CreateUser(user *model.User) (*model.Response, error) {
+	ret := _m.Called(user)
 
 	var r0 *model.Response
 	if rf, ok := ret.Get(0).(func(*model.User) *model.Response); ok {
-		r0 = rf(_a0)
+		r0 = rf(user)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Response)
@@ -27,7 +27,7 @@ func (_m *UserService) CreateUser(_a0 *model.User) (*model.Response, error) {
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(*model.User) error); ok {
-		r1 = rf(_a0)
+		r1 = rf(user)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -91,13 +91,13 @@ func (_m *UserService) GetUserById(id int) (model.User, error) {
 	return r0, r1
 }
 
-// UpdateUser provides a mock function with given fields: _a0, id
-func (_m *UserService) UpdateUser(_a0 *model.User, id int) error {
-	ret := _m.Called(_a0, id)
+// UpdateUser provides a mock function with given fields: user, id
+func (_m *UserService) UpdateUser(user *model.User, id int) error {
+	ret := _m.Called(user, id)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(*model.User, int) error); ok {
-		r0 = rf(_a0, id)
+		r0 = rf(user, id)
 	} else {
 		r0 = ret.Error(0)
 	}

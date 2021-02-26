@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/model"
+	model "github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

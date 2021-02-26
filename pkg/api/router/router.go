@@ -3,20 +3,22 @@ package router
 import (
 	"github.com/Mangaba-Labs/tempoo-api/pkg/api/handler"
 	middleware "github.com/Mangaba-Labs/tempoo-api/pkg/api/middlewares"
+	auth "github.com/Mangaba-Labs/tempoo-api/pkg/domain/auth/handler"
 	userHandler "github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/handler"
 	weatherHandler "github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/handler"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"time"
 )
 
-
 type Server struct {
-	userHandler userHandler.Handler
+	userHandler    userHandler.Handler
 	weatherHandler weatherHandler.WeatherHandler
+	authHandler  auth.AuthHandler
 }
 
-
-func NewServer(userHandler userHandler.Handler, weatherHandler weatherHandler.WeatherHandler) *Server {
-	return &Server{userHandler: userHandler, weatherHandler: weatherHandler}
+func NewServer(userHandler userHandler.Handler, weatherHandler weatherHandler.WeatherHandler, authHandler auth.AuthHandler) *Server {
+	return &Server{userHandler: userHandler, weatherHandler: weatherHandler, authHandler: authHandler}
 }
 
 // SetupRoutes setup router pkg
@@ -32,10 +34,19 @@ func (s *Server) SetupRoutes(app *fiber.App) {
 
 	// Auth
 	auth := v1.Group("/auth")
-	auth.Post("/login", handler.Login)
+	auth.Post("/login", s.authHandler.Login)
 
 	// User
-	user := v1.Group("/users")
+	user := v1.Group("/users", limiter.New(limiter.Config{
+		Max:        50,
+		Expiration: 1 * time.Minute,
+		KeyGenerator: func(c *fiber.Ctx) string {
+			return c.IP()
+		},
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.SendStatus(fiber.StatusTooManyRequests)
+		}}))
+
 	user.Post("/", s.userHandler.CreateUser)
 	user.Get("/:id", s.userHandler.GetUser)
 	user.Delete("/:id", s.userHandler.DeleteUser)

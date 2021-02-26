@@ -7,13 +7,13 @@ import (
 	"github.com/Mangaba-Labs/tempoo-api/pkg/api/router"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/auth"
 	"github.com/google/wire"
 )
 
 func initializeServer() (*router.Server, error) {
 
-	wire.Build(user.Set, weather.Set, router.NewServer)
+	wire.Build(user.Set, weather.Set, auth.Set, router.NewServer)
 
 	return &router.Server{}, nil
 }
-

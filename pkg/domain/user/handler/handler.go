@@ -13,12 +13,9 @@ type UserHandler interface {
 	DeleteUser(c *fiber.Ctx) error
 }
 
-
-
 // NewUserHandler returns a pointer to an handler impl
 func NewUserHandler(s services.UserService) Handler {
 	return Handler{
 		service: s,
 	}
 }
-

@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
+	model "github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -12,13 +12,13 @@ type UserRepository struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: _a0
-func (_m *UserRepository) Create(_a0 *model.User) error {
-	ret := _m.Called(_a0)
+// Create provides a mock function with given fields: user
+func (_m *UserRepository) Create(user *model.User) error {
+	ret := _m.Called(user)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(*model.User) error); ok {
-		r0 = rf(_a0)
+		r0 = rf(user)
 	} else {
 		r0 = ret.Error(0)
 	}
