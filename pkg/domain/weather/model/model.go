@@ -1,4 +1,4 @@
-package weather
+package model
 
 // Request handles data for /weather/current
 type Request struct {

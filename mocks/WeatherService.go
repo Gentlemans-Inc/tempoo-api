@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	weather "github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
+	model "github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -13,20 +13,20 @@ type WeatherService struct {
 }
 
 // GetCurrentWeather provides a mock function with given fields: coords
-func (_m *WeatherService) GetCurrentWeather(coords *weather.Request) (*weather.Response, error) {
+func (_m *WeatherService) GetCurrentWeather(coords *model.Request) (*model.Response, error) {
 	ret := _m.Called(coords)
 
-	var r0 *weather.Response
-	if rf, ok := ret.Get(0).(func(*weather.Request) *weather.Response); ok {
+	var r0 *model.Response
+	if rf, ok := ret.Get(0).(func(*model.Request) *model.Response); ok {
 		r0 = rf(coords)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*weather.Response)
+			r0 = ret.Get(0).(*model.Response)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(*weather.Request) error); ok {
+	if rf, ok := ret.Get(1).(func(*model.Request) error); ok {
 		r1 = rf(coords)
 	} else {
 		r1 = ret.Error(1)

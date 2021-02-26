@@ -2,16 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/config"
 	"log"
 	"os"
 
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/database"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/config"
 
-	"github.com/Mangaba-Labs/tempoo-api/pkg/api/router"
+	"github.com/Mangaba-Labs/tempoo-api/database"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
@@ -24,13 +23,17 @@ func main() {
 	config.SetupEnvVars()
 
 	// Database connection
-	database.ConnectDatabase()
-
-	migrations := config.Migrate{DB: database.Instance}
-	err := migrations.MigrateAll()
+	db, err := database.NewDatabase()
 
 	if err != nil {
-		log.Fatalf("cannot migrate database, stack: %s", err.Error())
+		log.Fatalf("cannot migrate database, err: %s", err.Error())
+	}
+
+	migrations := config.Migrate{DB: db}
+	err = migrations.MigrateAll()
+
+	if err != nil {
+		log.Fatalf("cannot migrate database, err: %s", err.Error())
 	}
 
 	app := fiber.New()
@@ -41,9 +44,6 @@ func main() {
 	//Handle Cors
 	app.Use(cors.New())
 
-	//Rate limiting
-	app.Use(limiter.New())
-
 	//Handle panics
 	app.Use(recover.New())
 
@@ -53,8 +53,15 @@ func main() {
 	//Request ID
 	app.Use(requestid.New())
 
-	//Handle routes
-	router.SetupRoutes(app)
+	// Router
+
+	server, err := initializeServer()
+
+	if err != nil {
+		log.Fatalf("cannot instantiate server, err: %s", err.Error())
+	}
+
+	server.SetupRoutes(app)
 
 	port := os.Getenv("PORT")
 

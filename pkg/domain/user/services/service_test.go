@@ -3,10 +3,10 @@ package services
 import (
 	"errors"
 	"fmt"
+	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/model"
 	"testing"
 
 	"github.com/Mangaba-Labs/tempoo-api/mocks"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"gorm.io/gorm"
@@ -15,7 +15,7 @@ import (
 // TestService layer
 func TestService(t *testing.T) {
 	t.Run("get an valid user by e-mail", func(t *testing.T) {
-		expectedResult := user.User{
+		expectedResult := model.User{
 			Email:    "matheus.cumpian@hotmail.com",
 			Name:     "Matheus Cumpian",
 			Password: "20012000",
@@ -23,7 +23,7 @@ func TestService(t *testing.T) {
 
 		mockedRepository := &mocks.UserRepository{}
 
-		mockedRepository.On("FindOneByEmail", mock.Anything).Return(user.User{
+		mockedRepository.On("FindOneByEmail", mock.Anything).Return(model.User{
 			Model:    gorm.Model{},
 			Email:    "matheus.cumpian@hotmail.com",
 			Name:     "Matheus Cumpian",
@@ -41,11 +41,11 @@ func TestService(t *testing.T) {
 	})
 
 	t.Run("get an invalid user by e-mail", func(t *testing.T) {
-		expectedResult := user.User{}
+		expectedResult := model.User{}
 
 		mockedRepository := &mocks.UserRepository{}
 
-		mockedRepository.On("FindOneByEmail", mock.Anything).Return(user.User{}, errors.New("user does not exists"))
+		mockedRepository.On("FindOneByEmail", mock.Anything).Return(model.User{}, errors.New("user does not exists"))
 
 		userService := Service{
 			Repository: mockedRepository,

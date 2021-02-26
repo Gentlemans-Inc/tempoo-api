@@ -3,18 +3,26 @@ package router
 import (
 	"github.com/Mangaba-Labs/tempoo-api/pkg/api/handler"
 	middleware "github.com/Mangaba-Labs/tempoo-api/pkg/api/middlewares"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/services"
-	"github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather"
+	auth "github.com/Mangaba-Labs/tempoo-api/pkg/domain/auth/handler"
+	userHandler "github.com/Mangaba-Labs/tempoo-api/pkg/domain/user/handler"
+	weatherHandler "github.com/Mangaba-Labs/tempoo-api/pkg/domain/weather/handler"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"time"
 )
 
-// SetupRoutes setup router pkg
-func SetupRoutes(app *fiber.App) {
+type Server struct {
+	userHandler    userHandler.Handler
+	weatherHandler weatherHandler.WeatherHandler
+	authHandler  auth.AuthHandler
+}
 
-	userService := services.NewUserService()
-	userHandler := handler.NewUserHandler(userService)
-	weatherService := weather.NewWeatherService()
-	weatherHandler := handler.NewWeatherHandler(weatherService)
+func NewServer(userHandler userHandler.Handler, weatherHandler weatherHandler.WeatherHandler, authHandler auth.AuthHandler) *Server {
+	return &Server{userHandler: userHandler, weatherHandler: weatherHandler, authHandler: authHandler}
+}
+
+// SetupRoutes setup router pkg
+func (s *Server) SetupRoutes(app *fiber.App) {
 
 	// Api base
 	api := app.Group("/api")
@@ -26,16 +34,25 @@ func SetupRoutes(app *fiber.App) {
 
 	// Auth
 	auth := v1.Group("/auth")
-	auth.Post("/login", handler.Login)
+	auth.Post("/login", s.authHandler.Login)
 
 	// User
-	user := v1.Group("/users")
-	user.Post("/", userHandler.CreateUser)
-	user.Get("/:id", userHandler.GetUser)
-	user.Delete("/:id", userHandler.DeleteUser)
-	user.Put("/:id", userHandler.EditUser)
+	user := v1.Group("/users", limiter.New(limiter.Config{
+		Max:        50,
+		Expiration: 1 * time.Minute,
+		KeyGenerator: func(c *fiber.Ctx) string {
+			return c.IP()
+		},
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.SendStatus(fiber.StatusTooManyRequests)
+		}}))
+
+	user.Post("/", s.userHandler.CreateUser)
+	user.Get("/:id", s.userHandler.GetUser)
+	user.Delete("/:id", s.userHandler.DeleteUser)
+	user.Put("/:id", s.userHandler.EditUser)
 
 	// weather
 	weather := v1.Group("/weather")
-	weather.Get("/current", middleware.Protected(), weatherHandler.GetWeather)
+	weather.Get("/current", middleware.Protected(), s.weatherHandler.GetWeather)
 }
