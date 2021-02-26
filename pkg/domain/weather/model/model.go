@@ -9,6 +9,7 @@ type Request struct {
 // Response handles response for weather/current
 type Response struct {
 	Main               string  `json:"main"`
+	DescriptionCode    uint    `json:"description_code"`
 	CurrentTemperature float32 `json:"current_temperature"`
 	Description        string  `json:"description"`
 	Humidity           uint    `json:"humidity"`
@@ -17,10 +18,12 @@ type Response struct {
 	WindSpeed          float32 `json:"wind_speed"`
 }
 
+// Forecast struct model
 type Forecast struct {
 	Weather []struct {
 		Main        string `json:"main"`
 		Description string `json:"description"`
+		ID          uint   `json:"id"`
 	} `json:"weather"`
 	Main struct {
 		CurrentTemperature float32 `json:"temp"`
@@ -33,8 +36,10 @@ type Forecast struct {
 	}
 }
 
+// ParseFromForecast model to Response
 func (r *Response) ParseFromForecast(f *Forecast) {
 	r.CurrentTemperature = f.Main.CurrentTemperature
+	r.DescriptionCode = f.Weather[0].ID
 	r.Description = f.Weather[0].Main
 	r.Humidity = f.Main.Humidity
 	r.Main = f.Weather[0].Main
